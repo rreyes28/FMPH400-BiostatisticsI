@@ -1,0 +1,154 @@
+---
+title: "FMPH-400_Biostats_Final"
+output:
+  pdf_document: default
+  word_document: default
+---
+
+## Set Up ##
+
+```{r setup, include=FALSE}
+#Working Directory
+getwd()
+setwd("/Users/rj/Documents/School/UCSD/Fall_2021/FMPH-400_Biostatistics")
+
+knitr::opts_chunk$set(echo = TRUE, fig.width=12, fig.height=8, fig.path='Fig/')
+
+#Read in data
+library(haven)
+
+Hypertens <- read_sav("Hypertension.sav")
+
+```
+
+## Data Analysis ##
+
+#1. Association between diabetes and systolic blood pressure
+
+```{r}
+## Diabetes and SBP.Change ##
+
+# Subset
+DiabetesCH <- Hypertens$SBP.Change[Hypertens$Diabetes == 1]
+NoDiabetesCH <- Hypertens$SBP.Change[Hypertens$Diabetes == 0]
+
+# Check Variance
+sd(DiabetesCH)/sd(NoDiabetesCH) # = 0.994
+sd(NoDiabetesCH)/sd(DiabetesCH) # = 1.006
+
+# Five Number Summary
+summary(DiabetesCH)
+summary(NoDiabetesCH)
+
+# Standard Deviation
+sd(DiabetesCH)
+sd(NoDiabetesCH)
+
+# Counts for Individuals with Diabetes and no Diabetes
+table(Hypertens$Diabetes)
+```
+
+```{r}
+# Boxplot of systolic blood pressure change in diabetes group and non-diabetes group
+boxplot(Hypertens$SBP.Change~Hypertens$Diabetes, names = c("Non-Diabetic", "Diabetic"), main="SBP Change in Diabetics vs. Non-Diabetics", xlab = "Presence or Absence of Diabetes", ylab = "Systolic Blood Pressure Change",
+        col=c("DarkRed", "Orange"))
+```
+
+
+```{r}
+# T-test for difference in means of Diabetes
+t.test(NoDiabetesCH, DiabetesCH, var.equal = TRUE)
+```
+
+p-value = 0.200 --> not < 0.05, fail to reject null
+95% CI = -7.46 to 1.56 --> contains 0, fail to reject null
+t-stat = -1.28 --> not within rejection region of < -1.96 or  > 1.96, fail to reject null
+
+#2. Association between homelessness and systolic blood pressure
+
+```{r}
+## Homeless and SBP.Change ##
+
+# Subset
+HomelessCH <- Hypertens$SBP.Change[Hypertens$Homeless == 1]
+NoHomelessCH <- Hypertens$SBP.Change[Hypertens$Homeless == 0]
+
+# Check Variance
+sd(HomelessCH)/sd(NoHomelessCH) # = 0.989
+sd(NoHomelessCH)/sd(HomelessCH) # = 1.010
+
+# Summary
+summary(HomelessCH)
+summary(NoHomelessCH)
+
+# Standard Deviation
+sd(HomelessCH)
+sd(NoHomelessCH)
+
+# Counts for Individuals who are Homeless and not Homeless
+table(Hypertens$Homeless)
+```
+
+```{r}
+# Boxplot of systolic blood pressure change in Homeless group and non-Homeless groups
+boxplot(Hypertens$SBP.Change~Hypertens$Homeless, names = c("Housed", "Homeless"), main = "SBP Change in Homeless vs. Non-Homeless", 
+        xlab = "Housing-Type Groups", ylab = "Systolic Blood Pressure Change",
+        col=c("DarkRed", "Orange"))
+```
+
+
+```{r}
+# T-test for difference in means of Homeless
+t.test(NoHomelessCH, HomelessCH, var.equal = TRUE)
+```
+
+p-value = 0.825 --> not < 0.05, fail to reject null
+95% CI = -4.70 to 5.90 --> contains 0, fail to reject null
+t-stat = 0.22 --> --> not within rejection region of < -1.96 or  > 1.96, fail to reject null
+
+#3. Association between gender and systolic blood pressure
+
+```{r}
+## Gender and SBP.Change ##
+
+# Subset
+MaleCH <- Hypertens$SBP.Change[Hypertens$Gender == 0]
+FemaleCH <- Hypertens$SBP.Change[Hypertens$Gender == 1]
+
+# Check Variance
+sd(MaleCH)/sd(FemaleCH) # = 0.929
+sd(FemaleCH)/sd(MaleCH) # = 1.076 
+
+# Summary
+summary(MaleCH)
+summary(FemaleCH)
+
+# Standard Deviation
+sd(MaleCH)
+sd(FemaleCH)
+
+# Count of Male and Female
+table(Hypertens$Gender)
+
+```
+
+```{r}
+# Boxplot of change in systolic blood pressure between Males and Females
+boxplot(Hypertens$SBP.Change~Hypertens$Gender,
+        names = c("Male", "Female"),
+        main="SBP Change in Males vs. Females",
+        xlab = "Gender Groups", ylab = "Systolic Blood Pressure Change", 
+        col=c("DarkRed", "Orange"))
+```
+
+
+```{r}
+# T-test for difference in means of Gender
+t.test(MaleCH, FemaleCH, var.equal = TRUE)
+```
+
+p-value = 0.797 --> not < 0.05, fail to reject null
+95% CI = -3.953 to 5.13 --> contains 0, fail to reject null
+t-stat = 0.256 --> not within rejection region of < -1.96 or  > 1.96, fail to reject null
+
+
