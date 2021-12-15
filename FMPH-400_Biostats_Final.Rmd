@@ -50,7 +50,9 @@ table(Hypertens$Diabetes)
 
 ```{r}
 # Boxplot of systolic blood pressure change in diabetes group and non-diabetes group
-boxplot(Hypertens$SBP.Change~Hypertens$Diabetes, names = c("Non-Diabetic", "Diabetic"), main="SBP Change in Diabetics vs. Non-Diabetics", xlab = "Presence or Absence of Diabetes", ylab = "Systolic Blood Pressure Change",
+boxplot(Hypertens$SBP.Change~Hypertens$Diabetes, names = c("Non-Diabetic", "Diabetic"), 
+main="SBP Change in Diabetics vs. Non-Diabetics", 
+xlab = "Presence or Absence of Diabetes", ylab = "Systolic Blood Pressure Change",
         col=c("DarkRed", "Orange"))
 ```
 
