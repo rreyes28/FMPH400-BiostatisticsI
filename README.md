@@ -1,1 +1,1 @@
-# FMPH400 Introduction to Biostatistics I
+# FMPH 400 - Introduction to Biostatistics I
